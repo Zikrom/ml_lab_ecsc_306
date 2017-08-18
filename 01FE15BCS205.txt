@@ -1,0 +1,54 @@
+import tensorflow as tf
+import matplotlib.pyplot as plt
+'''import numpy as np'''
+
+tf.reset_default_graph()
+x = [1.2345,2.2344,3.4563,4.1234]
+y = [3.4234,2.5678,5.2468,7.1245]
+z = tf.reduce_mean(x)
+a = tf.reduce_mean(y)
+
+sum1 = tf.reduce_sum(x)
+sum2 = tf.reduce_sum(y)
+sum3 = 0
+RMSE = 0
+
+variance_x = tf.reduce_sum(tf.square(x-tf.reduce_mean(x)))
+'''variance_y = tf.sum(tf.square(y-mean(y)))'''
+for i in range(0,4):
+    sum3 = sum3 + (x[i] - tf.reduce_mean(x)) * (y[i] - tf.reduce_mean(y))
+covariance = sum3
+
+c = covariance/variance_x
+
+m = a -c* z
+
+'''
+print(sum1)
+print(sum2)
+print(covariance)
+print(c)
+print(m)
+'''
+
+'''sess.run(m)'''
+
+plt.plot(x, y, 'ro')
+plt.show()
+
+for i in range(0,4):
+    RMSE = RMSE + (tf.square(y[i] - tf.reduce_mean(y)))
+RMSE1 = tf.sqrt(RMSE/4)
+'''print(RMSE1)'''
+
+Input_values = x[:,0]
+Labels = data[:,1]
+Prediction_values = data[:,0] * wcoeff + bias
+
+'''plt.plot(x,y , 'ro', label='main')'''
+'''plt.plot(Input_values, Prediction_values, label='Predicted')'''
+
+with tf.Session() as sess:
+    writer = tf.summary.FileWriter("/tmp/tboard/output4", sess.graph)
+    print(sess.run(RMSE1))
+    writer.close()
